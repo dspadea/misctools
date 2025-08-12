@@ -1,10 +1,10 @@
-# k8s-snap: pre-start cleanup for k8s dqlite
+# k8s-snap: pre-start cleanup for k8s k8sd
 
-This folder provides a small systemd "oneshot" service that runs before the `k8s` snap's dqlite service starts. It removes a stale dqlite socket file that can be left behind after an ungraceful shutdown and otherwise prevents k8s from starting.
+This folder provides a small systemd "oneshot" service that runs before the `k8s` snap's control-plane service (k8sd) starts. It removes a stale dqlite socket file that can be left behind after an ungraceful shutdown and otherwise prevents k8s from starting.
 
 - Target environment: Linux hosts running the Canonical `k8s` snap with systemd.
-- Problem addressed: Failed start of `snap.k8s.k8s-dqlite.service` due to a leftover socket file.
-- What it does: Installs a pre-start cleanup unit plus a helper script that deletes the stale socket before dqlite starts.
+- Problem addressed: Failed start of `snap.k8s.k8sd.service` due to a leftover socket file.
+- What it does: Installs a pre-start cleanup unit plus a helper script that deletes the stale socket before k8sd starts.
 
 > Note: This is not intended for macOS; it requires systemd and the `k8s` snap on a Linux host.
 
@@ -12,17 +12,17 @@ This folder provides a small systemd "oneshot" service that runs before the `k8s
 
 - `usr-local-bin/fix-k8s.sh` deletes the stale socket: `/var/snap/k8s/common/var/lib/k8s-dqlite/k8s-dqlite.sock`.
 - `etc-systemd-system/clean-up-k8s.service` is a `Type=oneshot` unit that calls the script and then exits.
-- `etc-systemd-system/snap.k8s.k8s-dqlite.service.d/override.conf` declares that dqlite:
+- `etc-systemd-system/snap.k8s.k8sd.service.d/override.conf` declares that k8sd:
   - Requires `clean-up-k8s.service`
   - Starts After `clean-up-k8s.service`
   
-This ensures cleanup happens before dqlite every time it starts.
+This ensures cleanup happens before k8sd every time it starts.
 
 ## Files
 
 - `setup.sh` — installer that copies units and script into place and enables the cleanup service.
 - `etc-systemd-system/clean-up-k8s.service` — oneshot unit that runs the cleanup.
-- `etc-systemd-system/snap.k8s.k8s-dqlite.service.d/override.conf` — drop-in to wire the dependency and ordering.
+- `etc-systemd-system/snap.k8s.k8sd.service.d/override.conf` — drop-in to wire the dependency and ordering.
 - `usr-local-bin/fix-k8s.sh` — script that removes the stale dqlite socket.
 
 ## Install
@@ -54,10 +54,10 @@ systemctl status clean-up-k8s.service
 journalctl -u clean-up-k8s.service -n 50 --no-pager
 ```
 
-- Ensure dqlite is ordered after the cleanup:
+- Ensure k8sd is ordered after the cleanup:
 
 ```sh
-systemctl cat snap.k8s.k8s-dqlite.service
+systemctl cat snap.k8s.k8sd.service
 ```
 Look for the drop-in showing `Requires=clean-up-k8s.service` and `After=clean-up-k8s.service`.
 
@@ -74,11 +74,17 @@ sudo systemctl start clean-up-k8s.service
 If you want to remove this setup:
 
 ```sh
-sudo systemctl disable clean-up-k8s.service
-sudo rm -f /etc/systemd/system/clean-up-k8s.service
-sudo rm -f /etc/systemd/system/snap.k8s.k8s-dqlite.service.d/override.conf
-sudo systemctl daemon-reload
-sudo rm -f /usr/local/bin/fix-k8s.sh
+sudo ./uninstall.sh
+```
+
+Or manually:
+
+```sh
+systemctl disable clean-up-k8s.service
+rm -f /etc/systemd/system/clean-up-k8s.service
+rm -f /etc/systemd/system/snap.k8s.k8sd.service.d/override.conf
+systemctl daemon-reload
+rm -f /usr/local/bin/fix-k8s.sh
 ```
 
 ## Troubleshooting

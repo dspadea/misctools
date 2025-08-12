@@ -1,21 +1,21 @@
-# When k8s exits uncleanly, it leaves this .sock file laying around, preventing
-# dqlite from starting up the next time. We want this to run and clean up before 
-# starting dqlite again.
+# When k8s exits uncleanly, it leaves this .sock file laying around, which can
+# prevent the control-plane (k8sd) from starting on the next boot. We want this
+# to run and clean up before starting k8sd again.
 #
-# Note that you ALSO need to create a drop-in override to set the dependency of 
-# dqlite on this unit. Put the override.conf file under 
+# Note that you ALSO need to create a drop-in override to set the dependency of
+# k8sd on this unit. Put the override.conf file under
 #
-# /etc/systemd/system/snap.k8s.k8s-dqlite.service.d/override.conf
+# /etc/systemd/system/snap.k8s.k8sd.service.d/override.conf
 #
 # or use:
 #
-# sudo systemctl edit snap.k8s.k8s-dqlite.service 
+# sudo systemctl edit snap.k8s.k8sd.service
 #
 # to create the override file, and paste in the contents of override.conf.
 
 [Unit]
 Description=Clean up from ungraceful stop of k8s snap
-Before=snap.k8s.k8s-dqlite.service
+Before=snap.k8s.k8sd.service
 
 [Service]
 Type=oneshot
