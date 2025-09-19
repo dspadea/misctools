@@ -9,7 +9,7 @@ This guide addresses two common issues when using an external Bluetooth keyboard
 
 Run the provided script to generate a `udev` rule that enables wake-from-sleep via Bluetooth. This only needs to be done once.
 
-Reference: [Reddit post](https://www.reddit.com/r/Ubuntu/comments/169d24v/comment/mivozfo/)
+Attribution: `bt-wake.sh` was sourced from a Reddit thread; the script contains a header with the source URL. No explicit license was provided with the original script. If you are the original author and prefer a different license or attribution, please open an issue or a pull request.
 
 ## Enable Bluetooth for Disk Encryption at Boot
 

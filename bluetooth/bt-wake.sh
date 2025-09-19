@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
 
-# I didn't write this script, I found it on Reddit and I'm keeping it here so I don't lose it.
-# Script is as I found it here: https://www.reddit.com/r/Ubuntu/comments/169d24v/comment/mivozfo/
-# -Dave
-
+# ---------------------------------------------------------------------------
+# Attribution: bt-wake.sh
+#
+# Sourced from: https://www.reddit.com/r/Ubuntu/comments/169d24v/comment/mivozfo/
+# No explicit license was provided with the original script. Included here
+# for convenience. If you are the original author and would like different
+# licensing or attribution, please open an issue or submit a pull request.
+# ---------------------------------------------------------------------------
 
 # This script creates a udev rule for each bluetooth controller to enable wakeup from suspend.
 # (You can delete all the lines starting with # if you want, they are just comments FYI.)
