@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
-# As found here: https://www.reddit.com/r/Ubuntu/comments/169d24v/comment/mivozfo/
+# I didn't write this script, I found it on Reddit and I'm keeping it here so I don't lose it.
+# Script is as I found it here: https://www.reddit.com/r/Ubuntu/comments/169d24v/comment/mivozfo/
+# -Dave
+
 
 # This script creates a udev rule for each bluetooth controller to enable wakeup from suspend.
 # (You can delete all the lines starting with # if you want, they are just comments FYI.)
