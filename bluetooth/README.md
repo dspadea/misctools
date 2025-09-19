@@ -1,30 +1,23 @@
-# Bluetooth Tweaks
+# Bluetooth Configuration Guide
 
-I was having two problems on my Fedora laptop when using an external bluetooth keyboard:
+This guide addresses two common issues when using an external Bluetooth keyboard on Fedora:
 
-* My laptop would not wake from sleep when I pressed a key
-* I couldn't enter the disk encryption key when the laptop booted
+- Laptop does not wake from sleep via Bluetooth keyboard
+- Unable to enter disk encryption key at boot
 
-Both of these are pretty annoying. 
+## Enable Wake from Sleep
 
-## Wake from Sleep
+Run the provided script to generate a `udev` rule that enables wake-from-sleep via Bluetooth. This only needs to be done once.
 
-Fortunately, a bit of googling about found the script included here to enable wake-from-sleep
-with bluetooth. It's basically exactly as I found it on a Reddit post. It generates a `udev` rule, 
-so you only need to run it once and it should fix it going forward. 
+Reference: [Reddit post](https://www.reddit.com/r/Ubuntu/comments/169d24v/comment/mivozfo/)
 
-Here's where I found it: https://www.reddit.com/r/Ubuntu/comments/169d24v/comment/mivozfo/
+## Enable Bluetooth for Disk Encryption at Boot
 
-## Bluetooth in Initramfs
-
-As for the disk encryption, just drop the ble.conf file into `/etc/dracut.conf.d/` and run:
+Copy `ble.conf` to `/etc/dracut.conf.d/` and regenerate the initramfs:
 
 ```
 sudo dracut --force --regenerate-all
 ```
 
-Once you reboot, you should be able to enter your disk encryption password with your keyboard. 
-
-Depending on the keyboard, you might need to press a key first and/or give it a second to connect,
-but, at least for me, it works great.
+After rebooting, you should be able to enter your disk encryption password using the Bluetooth keyboard. Connection time may vary depending on the device.
 
