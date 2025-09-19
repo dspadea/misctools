@@ -4,8 +4,8 @@ This repository contains a collection of miscellaneous tools and utilities, orga
 
 ## Use at your own risk. 
 
-These are tools for my own use that I'm making available in the hopes that others find them useful too, either directly or as a reference.
-They have not been thoroughly tested outside of my own use cases. Make sure to review and understand each tool before using it, as it may or may not work 
+These are tools for my own use that I'm making available in the hopes that others find them useful too, even as a starting point or reference.
+They have not been thoroughly tested outside of my own use cases. Make sure to review and understand each tool before using it, as it may not work 
 on your system without modification. 
 
 ## Usage & Installation
